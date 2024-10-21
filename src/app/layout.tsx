@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Link from "next/link";
 import localFont from "next/font/local";
-import NavLink from "@/components/NavLink";
+import AppLayout from "@/components/AppLayout";
+import SessionWrapper from "@/components/SessionWrapper";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,32 +27,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <div className="min-h-screen bg-gray-100">
-          <nav className="bg-white shadow-sm">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-between h-16">
-                <div className="flex">
-                  <Link href="/" className="flex-shrink-0 flex items-center">
-                    Dashboard
-                  </Link>
-                  <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
-                    <NavLink href="/">Overview</NavLink>
-                    <NavLink href="/visits">Visits</NavLink>
-                    <NavLink href="/customers">Customers</NavLink>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </nav>
-          <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-            {children}
-          </main>
-        </div>
-      </body>
-    </html>
+    <SessionWrapper>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <AppLayout>{children}</AppLayout>
+          <Toaster />
+        </body>
+      </html>
+    </SessionWrapper>
   );
 }
